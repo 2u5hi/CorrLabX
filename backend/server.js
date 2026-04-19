@@ -9,6 +9,7 @@ const PORT     = process.env.PORT || 3001
 const API_KEY  = process.env.ALPHA_VANTAGE_KEY
 const ORIGIN   = process.env.FRONTEND_URL || 'http://localhost:5173'
 
+app.set('trust proxy', 1)
 app.use(cors({ origin: ORIGIN }))
 
 const analyzeLimiter = rateLimit({
