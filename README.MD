@@ -3,6 +3,9 @@ Market inefficiency scanner for low-cap equities.
 
 CorrLabX is a quantitative research tool designed to identify statistically significant behavioral patterns in penny stocks and low-cap equities. It evaluates whether historical price structure in less efficient markets exhibits stronger exploitable characteristics than large-cap indices.
 
+Future Work**
+Next steps focus on completing the signal → decision → evaluation pipeline by adding strategy abstractions, backtesting capabilities, and a cached data layer for scalable experimentation.
+
 The Idea
 Efficient Market Hypothesis suggests prices reflect all available information. However, market efficiency is not uniform across instruments. Large-cap indices such as the NASDAQ Composite are heavily arbitraged by institutional and algorithmic participants, resulting in reduced exploitable structure.
 
