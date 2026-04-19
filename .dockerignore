@@ -1,0 +1,8 @@
+.git
+.env
+frontend
+backend/node_modules
+research/.pytest_cache
+research/__pycache__
+research/tests
+image.png
