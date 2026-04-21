@@ -231,6 +231,26 @@ function App() {
             />
           </div>
 
+          {result.forward_return !== undefined && (() => {
+            const pct = (result.forward_return * 100).toFixed(2)
+            const positive = result.forward_return >= 0
+            return (
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-xs text-white/40 mb-1">Forward Return (test period)</p>
+                    <p className={`text-2xl font-mono font-semibold ${positive ? 'text-green-400' : 'text-red-400'}`}>
+                      {positive ? '+' : ''}{pct}%
+                    </p>
+                  </div>
+                  <p className="text-xs text-white/30 max-w-[140px] text-right">
+                    Actual price change over the 20% held-out window
+                  </p>
+                </div>
+              </div>
+            )
+          })()}
+
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <p className="text-xs text-white/40 mb-1">Latest Close</p>
