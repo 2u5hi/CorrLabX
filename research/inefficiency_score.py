@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.stattools import acf
-from statsmodels.tsa.arima.model import ARIMA
+from pmdarima import auto_arima
 from sklearn.metrics import mean_squared_error
 import warnings
 warnings.filterwarnings("ignore")
@@ -46,26 +46,26 @@ def volatility_clustering_score(returns):
 
 def arima_edge_score(returns):
     if len(returns) < 30:
-        return 0.0
+        return 0.0, 0
     train_size = int(len(returns) * 0.8)
     train      = returns.iloc[:train_size]
     test       = returns.iloc[train_size:]
     baseline_rmse = np.sqrt(mean_squared_error(
         test, np.full(len(test), train.mean())
     ))
+    history = list(train)
+    model = auto_arima(history, seasonal=False, 
+                       error_action='ignore', suppress_warnings=True)
     try:
         preds   = []
-        history = list(train)
         for i in range(len(test)):
-            model = ARIMA(history, order=(2, 0, 0))
-            fit   = model.fit()
-            yhat  = fit.forecast(steps=1)[0]
+            yhat  = model.predict(n_periods=1)[0]
             preds.append(yhat)
             history.append(test.iloc[i])
         arima_rmse = np.sqrt(mean_squared_error(test, preds))
-        return round(float(max(0, baseline_rmse - arima_rmse)), 6)
+        return round(float(max(0, baseline_rmse - arima_rmse)), 6), train_size
     except Exception:
-        return 0.0
+        return 0.0, train_size
 
 def analyze(ticker):
     df      = get_price_data(ticker)
@@ -73,16 +73,22 @@ def analyze(ticker):
 
     ac_score   = autocorrelation_score(returns)
     vc_score   = volatility_clustering_score(returns)
-    edge_score = arima_edge_score(returns)
+    edge_score, train_size = arima_edge_score(returns)
 
     ac_normalized   = min(ac_score / 0.20, 1.0) * 40
     vc_normalized   = min(vc_score / 0.20, 1.0) * 30
     edge_normalized = min(edge_score / 0.05, 1.0) * 30
     final           = round(ac_normalized + vc_normalized + edge_normalized, 2)
 
+    ## adjustment to add forward return predictability edge
+    test_df = df.iloc[train_size:]
+    forward_return = (test_df["close"].iloc[-1] - 
+                      test_df["close"].iloc[0]) / test_df["close"].iloc[0]
+
     return {
         "ticker":       ticker.upper(),
         "inefficiency": final,
+        "forward_return": round(forward_return, 4),
         "components": {
             "autocorrelation":       ac_score,
             "volatility_clustering": vc_score,
