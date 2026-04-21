@@ -67,8 +67,9 @@ def arima_edge_score(returns):
     except Exception:
         return 0.0, train_size
 
-def analyze(ticker):
-    df      = get_price_data(ticker)
+def analyze(ticker, df=None):
+    if df is None:
+        df      = get_price_data(ticker)
     returns = df["returns"]
 
     ac_score   = autocorrelation_score(returns)
