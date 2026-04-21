@@ -251,6 +251,15 @@ function App() {
             )
           })()}
 
+          {result.reliable === "false" && (
+            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-4 py-3">
+              <p className="text-yellow-400 text-sm font-semibold">Low Reliability</p>
+              <p className="text-yellow-400/70 text-xs mt-1">
+                This stock has insufficient liquidity or price is above threshold. Score may not be meaningful.
+              </p>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <p className="text-xs text-white/40 mb-1">Latest Close</p>
@@ -259,9 +268,9 @@ function App() {
               </p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <p className="text-xs text-white/40 mb-1">Volume</p>
+              <p className="text-xs text-white/40 mb-1">Avg Volume</p>
               <p className="text-xl font-mono font-semibold">
-                {result.price.volume.toLocaleString()}
+                {result.price.avg_volume.toLocaleString()}
               </p>
             </div>
           </div>

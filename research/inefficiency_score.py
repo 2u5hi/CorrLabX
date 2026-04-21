@@ -86,18 +86,21 @@ def analyze(ticker, df=None):
     forward_return = (test_df["close"].iloc[-1] - 
                       test_df["close"].iloc[0]) / test_df["close"].iloc[0]
 
+    latest_close = round(df["close"].iloc[-1], 4)
+    avg_volume = int(df["volume"].mean())
     return {
         "ticker":       ticker.upper(),
         "inefficiency": final,
         "forward_return": round(forward_return, 4),
+        "reliable": "true" if avg_volume > 2_000_000 and latest_close < 24 else "false",
         "components": {
             "autocorrelation":       ac_score,
             "volatility_clustering": vc_score,
             "arima_edge":            edge_score
         },
         "price": {
-            "latest_close": round(df["close"].iloc[-1], 4),
-            "volume":       int(df["volume"].iloc[-1])
+            "latest_close": latest_close,
+            "avg_volume":       avg_volume
         }
     }
 
