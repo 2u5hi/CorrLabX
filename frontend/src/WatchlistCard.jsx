@@ -6,28 +6,29 @@ export default function WatchlistCard({ item, onAnalyze, onRemove, isLoading }) 
   return (
     <div
       onClick={() => !isLoading && onAnalyze(item.ticker)}
-      className="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/10 transition-colors relative"
+      className="rounded-xl p-3 border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl cursor-pointer hover:bg-white/[0.07] transition-colors relative"
     >
       <button
         onClick={e => { e.stopPropagation(); onRemove(item.ticker) }}
-        className="absolute top-3 right-3 text-white/30 hover:text-white/70 text-lg leading-none"
+        className="absolute top-2.5 right-2.5 text-white/25 hover:text-white/60 text-base leading-none"
       >
         ×
       </button>
 
       {isLoading ? (
-        <div className="flex items-center justify-center h-16">
-          <span className="text-white/30 text-sm animate-pulse">Analyzing...</span>
+        <div className="flex items-center h-10">
+          <span className="text-white/30 text-xs animate-pulse">Analyzing...</span>
         </div>
       ) : (
         <>
-          <p className="text-xs text-white/40 font-mono mb-2">{item.ticker}</p>
-          <p className={`text-3xl font-bold font-mono ${scoreClass(item.inefficiency)}`}>
-            {item.inefficiency}
-          </p>
-          <p className="text-xs text-white/30 mb-2">/ 100</p>
+          <div className="flex items-baseline justify-between pr-5">
+            <span className="text-xs font-mono text-white/50">{item.ticker}</span>
+            <span className={`text-lg font-bold font-mono ${scoreClass(item.inefficiency)}`}>
+              {item.inefficiency}
+            </span>
+          </div>
           <ScoreBar value={item.inefficiency} />
-          <p className="text-xs text-white/40 font-mono mt-2">${item.price.latest_close}</p>
+          <p className="text-[10px] text-white/30 font-mono mt-1.5">${item.price.latest_close}</p>
         </>
       )}
     </div>

@@ -17,12 +17,12 @@ export default function ScoreChart({ history }) {
 
   if (data.length === 1) {
     return (
-      <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-        <p className="text-xs text-white/40 mb-3">Score History</p>
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4">
+        <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Score History</p>
         <ResponsiveContainer width="100%" height={100}>
           <LineChart data={data} margin={{ top: 20, right: 20, bottom: 10, left: 0 }}>
-            <XAxis dataKey="date" stroke="#ffffff20" tick={{ fill: '#ffffff40', fontSize: 11 }} />
-            <YAxis domain={[0, 100]} stroke="#ffffff20" tick={{ fill: '#ffffff40', fontSize: 11 }} width={32} />
+            <XAxis dataKey="date" stroke="#ffffff12" tick={{ fill: '#ffffff35', fontSize: 11 }} />
+            <YAxis domain={[0, 100]} stroke="#ffffff12" tick={{ fill: '#ffffff35', fontSize: 11 }} width={32} />
             <ReferenceDot
               x={data[0].date}
               y={data[0].score}
@@ -38,15 +38,21 @@ export default function ScoreChart({ history }) {
   }
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-      <p className="text-xs text-white/40 mb-3">Score History</p>
+    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4">
+      <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Score History</p>
       <ResponsiveContainer width="100%" height={120}>
         <LineChart data={data} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
-          <XAxis dataKey="date" stroke="#ffffff20" tick={{ fill: '#ffffff40', fontSize: 11 }} />
-          <YAxis domain={[0, 100]} stroke="#ffffff20" tick={{ fill: '#ffffff40', fontSize: 11 }} width={32} />
+          <XAxis dataKey="date" stroke="#ffffff12" tick={{ fill: '#ffffff35', fontSize: 11 }} />
+          <YAxis domain={[0, 100]} stroke="#ffffff12" tick={{ fill: '#ffffff35', fontSize: 11 }} width={32} />
           <Tooltip
-            contentStyle={{ background: '#1a1a1d', border: '1px solid #ffffff20', borderRadius: 8, fontSize: 12 }}
-            labelStyle={{ color: '#ffffff60' }}
+            contentStyle={{
+              background: 'rgba(10,10,18,0.85)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 10,
+              fontSize: 12
+            }}
+            labelStyle={{ color: '#ffffff50' }}
             itemStyle={{ color }}
             formatter={v => [v, 'Score']}
           />
